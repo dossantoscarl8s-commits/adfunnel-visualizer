@@ -78,7 +78,7 @@ export async function processWebhook(payload: {
               campaign_name: ref["headline"] ?? null,
               headline: ref["headline"] ?? null,
               source_url: ref["source_url"] ?? null,
-              raw: { referral: ref },
+              raw: { referral: ref } as unknown as never,
             })
             .select("id")
             .single();
@@ -86,7 +86,7 @@ export async function processWebhook(payload: {
         } else {
           await supabaseAdmin
             .from("whatsapp_leads")
-            .update({ last_message_at: ts, name: contact?.profile?.name ?? undefined })
+            .update({ last_message_at: ts, name: contact?.profile?.name ?? null })
             .eq("id", leadId);
         }
 
@@ -97,7 +97,7 @@ export async function processWebhook(payload: {
             body: msg.text?.body ?? `[${msg.type ?? "mídia"}]`,
             wa_message_id: msg.id ?? null,
             sent_at: ts,
-            raw: msg as unknown as Record<string, unknown>,
+            raw: msg as unknown as never,
           });
           processed += 1;
         }

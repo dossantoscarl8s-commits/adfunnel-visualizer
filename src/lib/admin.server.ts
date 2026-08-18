@@ -31,7 +31,7 @@ export async function listAppUsers() {
 export async function createAppUser(input: {
   login: string;
   password: string;
-  full_name?: string;
+  full_name?: string | undefined;
   role: "admin" | "user";
 }) {
   const email = toEmail(input.login);

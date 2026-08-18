@@ -9,8 +9,8 @@ export const getAdminSettings = createServerFn({ method: "GET" })
     await assertAdmin(context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data } = await supabaseAdmin.from("app_settings").select("key, value");
-    const out: Record<string, Record<string, unknown>> = {};
-    for (const row of data ?? []) out[row.key] = (row.value ?? {}) as Record<string, unknown>;
+    const out: Record<string, Record<string, string | number | boolean | null>> = {};
+    for (const row of data ?? []) out[row.key] = (row.value ?? {}) as Record<string, string | number | boolean | null>;
     return out;
   });
 

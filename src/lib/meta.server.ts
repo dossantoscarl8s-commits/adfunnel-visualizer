@@ -75,7 +75,14 @@ export async function fetchAccountInsights(
 }
 
 export function toRow(actId: string, unitName: string, rows: Array<Record<string, unknown>>): MetaRow {
-  const agg = rows.reduce(
+  const agg = rows.reduce<{
+    spend: number;
+    impressions: number;
+    clicks: number;
+    reach: number;
+    leads: number;
+    messaging: number;
+  }>(
     (acc, r) => {
       acc.spend += Number(r["spend"] || 0);
       acc.impressions += Number(r["impressions"] || 0);

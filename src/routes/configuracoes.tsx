@@ -68,7 +68,7 @@ function SettingsPage() {
   const [overview, setOverview] = useState<OverviewConfig>(DEFAULT_OVERVIEW);
   const [account, setAccount] = useState({ act_id: "", unit_name: "", whatsapp_number: "" });
 
-  const { data: settings } = useQuery({
+  const { data: settings } = useQuery<Record<string, Record<string, any>>>({
     queryKey: ["admin-settings"],
     enabled: auth.isAdmin,
     queryFn: () => load(),
@@ -120,7 +120,7 @@ function SettingsPage() {
   async function savePublic(key: string, value: Record<string, unknown>) {
     const { error } = await supabase
       .from("public_settings")
-      .upsert({ key, value, updated_at: new Date().toISOString() });
+      .upsert({ key, value: value as never, updated_at: new Date().toISOString() });
     if (error) toast.error(error.message);
     else {
       toast.success("Configuração salva.");
@@ -191,7 +191,10 @@ function SettingsPage() {
                   unit_name: account.unit_name,
                   whatsapp_number: account.whatsapp_number || null,
                 });
-                if (error) return toast.error(error.message);
+                if (error) {
+                  toast.error(error.message);
+                  return;
+                }
                 setAccount({ act_id: "", unit_name: "", whatsapp_number: "" });
                 qc.invalidateQueries({ queryKey: ["ad-accounts"] });
                 toast.success("Unidade cadastrada.");
@@ -309,7 +312,7 @@ function SettingsPage() {
           <div className="panel max-w-2xl space-y-4 p-5">
             <div className="space-y-1.5">
               <Label>Modelo</Label>
-              <Select value={ai.model} onValueChange={(v) => setAi({ ...ai, model: v })}>
+              <Select value={ai.model ?? ""} onValueChange={(v) => setAi({ ...ai, model: v })}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   {MODELS.map((m) => (

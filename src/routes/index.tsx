@@ -249,7 +249,7 @@ function Overview() {
               key={id}
               label={meta.label}
               value={isFetching ? "…" : (kpiValue[id]?.value ?? "—")}
-              icon={kpiValue[id]?.icon}
+              {...(kpiValue[id]?.icon ? { icon: kpiValue[id]!.icon } : {})}
             />
           );
         })}
