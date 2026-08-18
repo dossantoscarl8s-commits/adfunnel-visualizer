@@ -14,16 +14,262 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ad_accounts: {
+        Row: {
+          act_id: string
+          active: boolean
+          created_at: string
+          id: string
+          unit_name: string
+          updated_at: string
+          whatsapp_number: string | null
+        }
+        Insert: {
+          act_id: string
+          active?: boolean
+          created_at?: string
+          id?: string
+          unit_name: string
+          updated_at?: string
+          whatsapp_number?: string | null
+        }
+        Update: {
+          act_id?: string
+          active?: boolean
+          created_at?: string
+          id?: string
+          unit_name?: string
+          updated_at?: string
+          whatsapp_number?: string | null
+        }
+        Relationships: []
+      }
+      app_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
+      public_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      whatsapp_leads: {
+        Row: {
+          ad_account_id: string | null
+          ad_id: string | null
+          ad_name: string | null
+          adset_id: string | null
+          adset_name: string | null
+          campaign_id: string | null
+          campaign_name: string | null
+          created_at: string
+          ctwa_clid: string | null
+          first_contact_at: string
+          first_message: string | null
+          headline: string | null
+          id: string
+          last_message_at: string | null
+          name: string | null
+          phone: string
+          raw: Json
+          replied: boolean
+          replied_at: string | null
+          source_type: string | null
+          source_url: string | null
+          status: string
+          unit_name: string | null
+          updated_at: string
+          wa_id: string | null
+        }
+        Insert: {
+          ad_account_id?: string | null
+          ad_id?: string | null
+          ad_name?: string | null
+          adset_id?: string | null
+          adset_name?: string | null
+          campaign_id?: string | null
+          campaign_name?: string | null
+          created_at?: string
+          ctwa_clid?: string | null
+          first_contact_at?: string
+          first_message?: string | null
+          headline?: string | null
+          id?: string
+          last_message_at?: string | null
+          name?: string | null
+          phone: string
+          raw?: Json
+          replied?: boolean
+          replied_at?: string | null
+          source_type?: string | null
+          source_url?: string | null
+          status?: string
+          unit_name?: string | null
+          updated_at?: string
+          wa_id?: string | null
+        }
+        Update: {
+          ad_account_id?: string | null
+          ad_id?: string | null
+          ad_name?: string | null
+          adset_id?: string | null
+          adset_name?: string | null
+          campaign_id?: string | null
+          campaign_name?: string | null
+          created_at?: string
+          ctwa_clid?: string | null
+          first_contact_at?: string
+          first_message?: string | null
+          headline?: string | null
+          id?: string
+          last_message_at?: string | null
+          name?: string | null
+          phone?: string
+          raw?: Json
+          replied?: boolean
+          replied_at?: string | null
+          source_type?: string | null
+          source_url?: string | null
+          status?: string
+          unit_name?: string | null
+          updated_at?: string
+          wa_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_leads_ad_account_id_fkey"
+            columns: ["ad_account_id"]
+            isOneToOne: false
+            referencedRelation: "ad_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      whatsapp_messages: {
+        Row: {
+          body: string | null
+          direction: string
+          id: string
+          lead_id: string
+          raw: Json
+          sent_at: string
+          wa_message_id: string | null
+        }
+        Insert: {
+          body?: string | null
+          direction?: string
+          id?: string
+          lead_id: string
+          raw?: Json
+          sent_at?: string
+          wa_message_id?: string | null
+        }
+        Update: {
+          body?: string | null
+          direction?: string
+          id?: string
+          lead_id?: string
+          raw?: Json
+          sent_at?: string
+          wa_message_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_messages_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "whatsapp_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +396,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
