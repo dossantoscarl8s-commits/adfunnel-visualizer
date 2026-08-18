@@ -10,33 +10,129 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
+import { Route as LeadsWhatsappRouteImport } from './routes/leads-whatsapp'
+import { Route as RankingRouteImport } from './routes/ranking'
+import { Route as UsuariosRouteImport } from './routes/usuarios'
+import { Route as ApiPublicBootstrapRouteImport } from './routes/api/public/bootstrap'
+import { Route as ApiPublicWhatsappWebhookRouteImport } from './routes/api/public/whatsapp.webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeadsWhatsappRoute = LeadsWhatsappRouteImport.update({
+  id: '/leads-whatsapp',
+  path: '/leads-whatsapp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RankingRoute = RankingRouteImport.update({
+  id: '/ranking',
+  path: '/ranking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsuariosRoute = UsuariosRouteImport.update({
+  id: '/usuarios',
+  path: '/usuarios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicBootstrapRoute = ApiPublicBootstrapRouteImport.update({
+  id: '/api/public/bootstrap',
+  path: '/api/public/bootstrap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicWhatsappWebhookRoute =
+  ApiPublicWhatsappWebhookRouteImport.update({
+    id: '/api/public/whatsapp/webhook',
+    path: '/api/public/whatsapp/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/leads-whatsapp': typeof LeadsWhatsappRoute
+  '/ranking': typeof RankingRoute
+  '/usuarios': typeof UsuariosRoute
+  '/api/public/bootstrap': typeof ApiPublicBootstrapRoute
+  '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/leads-whatsapp': typeof LeadsWhatsappRoute
+  '/ranking': typeof RankingRoute
+  '/usuarios': typeof UsuariosRoute
+  '/api/public/bootstrap': typeof ApiPublicBootstrapRoute
+  '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/leads-whatsapp': typeof LeadsWhatsappRoute
+  '/ranking': typeof RankingRoute
+  '/usuarios': typeof UsuariosRoute
+  '/api/public/bootstrap': typeof ApiPublicBootstrapRoute
+  '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/configuracoes'
+    | '/leads-whatsapp'
+    | '/ranking'
+    | '/usuarios'
+    | '/api/public/bootstrap'
+    | '/api/public/whatsapp/webhook'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/configuracoes'
+    | '/leads-whatsapp'
+    | '/ranking'
+    | '/usuarios'
+    | '/api/public/bootstrap'
+    | '/api/public/whatsapp/webhook'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/configuracoes'
+    | '/leads-whatsapp'
+    | '/ranking'
+    | '/usuarios'
+    | '/api/public/bootstrap'
+    | '/api/public/whatsapp/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  ConfiguracoesRoute: typeof ConfiguracoesRoute
+  LeadsWhatsappRoute: typeof LeadsWhatsappRoute
+  RankingRoute: typeof RankingRoute
+  UsuariosRoute: typeof UsuariosRoute
+  ApiPublicBootstrapRoute: typeof ApiPublicBootstrapRoute
+  ApiPublicWhatsappWebhookRoute: typeof ApiPublicWhatsappWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +144,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/configuracoes': {
+      id: '/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof ConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leads-whatsapp': {
+      id: '/leads-whatsapp'
+      path: '/leads-whatsapp'
+      fullPath: '/leads-whatsapp'
+      preLoaderRoute: typeof LeadsWhatsappRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ranking': {
+      id: '/ranking'
+      path: '/ranking'
+      fullPath: '/ranking'
+      preLoaderRoute: typeof RankingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/usuarios': {
+      id: '/usuarios'
+      path: '/usuarios'
+      fullPath: '/usuarios'
+      preLoaderRoute: typeof UsuariosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/bootstrap': {
+      id: '/api/public/bootstrap'
+      path: '/api/public/bootstrap'
+      fullPath: '/api/public/bootstrap'
+      preLoaderRoute: typeof ApiPublicBootstrapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/whatsapp/webhook': {
+      id: '/api/public/whatsapp/webhook'
+      path: '/api/public/whatsapp/webhook'
+      fullPath: '/api/public/whatsapp/webhook'
+      preLoaderRoute: typeof ApiPublicWhatsappWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  ConfiguracoesRoute: ConfiguracoesRoute,
+  LeadsWhatsappRoute: LeadsWhatsappRoute,
+  RankingRoute: RankingRoute,
+  UsuariosRoute: UsuariosRoute,
+  ApiPublicBootstrapRoute: ApiPublicBootstrapRoute,
+  ApiPublicWhatsappWebhookRoute: ApiPublicWhatsappWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
