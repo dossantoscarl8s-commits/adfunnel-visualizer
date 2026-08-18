@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as LeadsWhatsappRouteImport } from './routes/leads-whatsapp'
 import { Route as RankingRouteImport } from './routes/ranking'
 import { Route as ApiPublicBootstrapRouteImport } from './routes/api/public/bootstrap'
 import { Route as ApiPublicWhatsappWebhookRouteImport } from './routes/api/public/whatsapp.webhook'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeadsWhatsappRoute = LeadsWhatsappRouteImport.update({
+  id: '/leads-whatsapp',
+  path: '/leads-whatsapp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RankingRoute = RankingRouteImport.update({
@@ -45,6 +51,7 @@ const ApiPublicWhatsappWebhookRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/leads-whatsapp': typeof LeadsWhatsappRoute
   '/ranking': typeof RankingRoute
   '/api/public/bootstrap': typeof ApiPublicBootstrapRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
@@ -52,6 +59,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/leads-whatsapp': typeof LeadsWhatsappRoute
   '/ranking': typeof RankingRoute
   '/api/public/bootstrap': typeof ApiPublicBootstrapRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
@@ -60,6 +68,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/leads-whatsapp': typeof LeadsWhatsappRoute
   '/ranking': typeof RankingRoute
   '/api/public/bootstrap': typeof ApiPublicBootstrapRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
@@ -69,6 +78,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/leads-whatsapp'
     | '/ranking'
     | '/api/public/bootstrap'
     | '/api/public/whatsapp/webhook'
@@ -76,6 +86,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/leads-whatsapp'
     | '/ranking'
     | '/api/public/bootstrap'
     | '/api/public/whatsapp/webhook'
@@ -83,6 +94,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auth'
+    | '/leads-whatsapp'
     | '/ranking'
     | '/api/public/bootstrap'
     | '/api/public/whatsapp/webhook'
@@ -91,6 +103,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  LeadsWhatsappRoute: typeof LeadsWhatsappRoute
   RankingRoute: typeof RankingRoute
   ApiPublicBootstrapRoute: typeof ApiPublicBootstrapRoute
   ApiPublicWhatsappWebhookRoute: typeof ApiPublicWhatsappWebhookRoute
@@ -110,6 +123,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leads-whatsapp': {
+      id: '/leads-whatsapp'
+      path: '/leads-whatsapp'
+      fullPath: '/leads-whatsapp'
+      preLoaderRoute: typeof LeadsWhatsappRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ranking': {
@@ -139,6 +159,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  LeadsWhatsappRoute: LeadsWhatsappRoute,
   RankingRoute: RankingRoute,
   ApiPublicBootstrapRoute: ApiPublicBootstrapRoute,
   ApiPublicWhatsappWebhookRoute: ApiPublicWhatsappWebhookRoute,
