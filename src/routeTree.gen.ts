@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as LeadsWhatsappRouteImport } from './routes/leads-whatsapp'
 import { Route as RankingRouteImport } from './routes/ranking'
+import { Route as UsuariosRouteImport } from './routes/usuarios'
 import { Route as ApiPublicBootstrapRouteImport } from './routes/api/public/bootstrap'
 import { Route as ApiPublicWhatsappWebhookRouteImport } from './routes/api/public/whatsapp.webhook'
 
@@ -36,6 +37,11 @@ const RankingRoute = RankingRouteImport.update({
   path: '/ranking',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UsuariosRoute = UsuariosRouteImport.update({
+  id: '/usuarios',
+  path: '/usuarios',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicBootstrapRoute = ApiPublicBootstrapRouteImport.update({
   id: '/api/public/bootstrap',
   path: '/api/public/bootstrap',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/leads-whatsapp': typeof LeadsWhatsappRoute
   '/ranking': typeof RankingRoute
+  '/usuarios': typeof UsuariosRoute
   '/api/public/bootstrap': typeof ApiPublicBootstrapRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
 }
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/leads-whatsapp': typeof LeadsWhatsappRoute
   '/ranking': typeof RankingRoute
+  '/usuarios': typeof UsuariosRoute
   '/api/public/bootstrap': typeof ApiPublicBootstrapRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
 }
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/leads-whatsapp': typeof LeadsWhatsappRoute
   '/ranking': typeof RankingRoute
+  '/usuarios': typeof UsuariosRoute
   '/api/public/bootstrap': typeof ApiPublicBootstrapRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
 }
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/leads-whatsapp'
     | '/ranking'
+    | '/usuarios'
     | '/api/public/bootstrap'
     | '/api/public/whatsapp/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/leads-whatsapp'
     | '/ranking'
+    | '/usuarios'
     | '/api/public/bootstrap'
     | '/api/public/whatsapp/webhook'
   id:
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/leads-whatsapp'
     | '/ranking'
+    | '/usuarios'
     | '/api/public/bootstrap'
     | '/api/public/whatsapp/webhook'
   fileRoutesById: FileRoutesById
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   LeadsWhatsappRoute: typeof LeadsWhatsappRoute
   RankingRoute: typeof RankingRoute
+  UsuariosRoute: typeof UsuariosRoute
   ApiPublicBootstrapRoute: typeof ApiPublicBootstrapRoute
   ApiPublicWhatsappWebhookRoute: typeof ApiPublicWhatsappWebhookRoute
 }
@@ -139,6 +152,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RankingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/usuarios': {
+      id: '/usuarios'
+      path: '/usuarios'
+      fullPath: '/usuarios'
+      preLoaderRoute: typeof UsuariosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/bootstrap': {
       id: '/api/public/bootstrap'
       path: '/api/public/bootstrap'
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   LeadsWhatsappRoute: LeadsWhatsappRoute,
   RankingRoute: RankingRoute,
+  UsuariosRoute: UsuariosRoute,
   ApiPublicBootstrapRoute: ApiPublicBootstrapRoute,
   ApiPublicWhatsappWebhookRoute: ApiPublicWhatsappWebhookRoute,
 }
