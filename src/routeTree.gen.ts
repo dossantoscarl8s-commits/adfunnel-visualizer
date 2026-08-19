@@ -16,6 +16,7 @@ import { Route as LeadsWhatsappRouteImport } from './routes/leads-whatsapp'
 import { Route as RankingRouteImport } from './routes/ranking'
 import { Route as UsuariosRouteImport } from './routes/usuarios'
 import { Route as ApiPublicBootstrapRouteImport } from './routes/api/public/bootstrap'
+import { Route as ApiPublicEvolutionWebhookRouteImport } from './routes/api/public/evolution.webhook'
 import { Route as ApiPublicWhatsappWebhookRouteImport } from './routes/api/public/whatsapp.webhook'
 
 const IndexRoute = IndexRouteImport.update({
@@ -53,6 +54,12 @@ const ApiPublicBootstrapRoute = ApiPublicBootstrapRouteImport.update({
   path: '/api/public/bootstrap',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicEvolutionWebhookRoute =
+  ApiPublicEvolutionWebhookRouteImport.update({
+    id: '/api/public/evolution/webhook',
+    path: '/api/public/evolution/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicWhatsappWebhookRoute =
   ApiPublicWhatsappWebhookRouteImport.update({
     id: '/api/public/whatsapp/webhook',
@@ -68,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/ranking': typeof RankingRoute
   '/usuarios': typeof UsuariosRoute
   '/api/public/bootstrap': typeof ApiPublicBootstrapRoute
+  '/api/public/evolution/webhook': typeof ApiPublicEvolutionWebhookRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -78,6 +86,7 @@ export interface FileRoutesByTo {
   '/ranking': typeof RankingRoute
   '/usuarios': typeof UsuariosRoute
   '/api/public/bootstrap': typeof ApiPublicBootstrapRoute
+  '/api/public/evolution/webhook': typeof ApiPublicEvolutionWebhookRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
 }
 export interface FileRoutesById {
@@ -89,6 +98,7 @@ export interface FileRoutesById {
   '/ranking': typeof RankingRoute
   '/usuarios': typeof UsuariosRoute
   '/api/public/bootstrap': typeof ApiPublicBootstrapRoute
+  '/api/public/evolution/webhook': typeof ApiPublicEvolutionWebhookRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
 }
 export interface FileRouteTypes {
@@ -101,6 +111,7 @@ export interface FileRouteTypes {
     | '/ranking'
     | '/usuarios'
     | '/api/public/bootstrap'
+    | '/api/public/evolution/webhook'
     | '/api/public/whatsapp/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -111,6 +122,7 @@ export interface FileRouteTypes {
     | '/ranking'
     | '/usuarios'
     | '/api/public/bootstrap'
+    | '/api/public/evolution/webhook'
     | '/api/public/whatsapp/webhook'
   id:
     | '__root__'
@@ -121,6 +133,7 @@ export interface FileRouteTypes {
     | '/ranking'
     | '/usuarios'
     | '/api/public/bootstrap'
+    | '/api/public/evolution/webhook'
     | '/api/public/whatsapp/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -132,6 +145,7 @@ export interface RootRouteChildren {
   RankingRoute: typeof RankingRoute
   UsuariosRoute: typeof UsuariosRoute
   ApiPublicBootstrapRoute: typeof ApiPublicBootstrapRoute
+  ApiPublicEvolutionWebhookRoute: typeof ApiPublicEvolutionWebhookRoute
   ApiPublicWhatsappWebhookRoute: typeof ApiPublicWhatsappWebhookRoute
 }
 
@@ -186,6 +200,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicBootstrapRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/evolution/webhook': {
+      id: '/api/public/evolution/webhook'
+      path: '/api/public/evolution/webhook'
+      fullPath: '/api/public/evolution/webhook'
+      preLoaderRoute: typeof ApiPublicEvolutionWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/whatsapp/webhook': {
       id: '/api/public/whatsapp/webhook'
       path: '/api/public/whatsapp/webhook'
@@ -204,6 +225,7 @@ const rootRouteChildren: RootRouteChildren = {
   RankingRoute: RankingRoute,
   UsuariosRoute: UsuariosRoute,
   ApiPublicBootstrapRoute: ApiPublicBootstrapRoute,
+  ApiPublicEvolutionWebhookRoute: ApiPublicEvolutionWebhookRoute,
   ApiPublicWhatsappWebhookRoute: ApiPublicWhatsappWebhookRoute,
 }
 export const routeTree = rootRouteImport

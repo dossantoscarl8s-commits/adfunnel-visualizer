@@ -18,13 +18,30 @@ export const sendWhatsappReply = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { getWhatsappSettings } = await import("@/lib/whatsapp.server");
     const cfg = await getWhatsappSettings();
-    if (!cfg.access_token || !cfg.phone_number_id) throw new Error("Configure a WhatsApp Cloud API.");
     const { data: lead } = await supabaseAdmin
       .from("whatsapp_leads")
-      .select("phone")
+      .select("phone, ad_account_id")
       .eq("id", data.leadId)
       .maybeSingle();
     if (!lead) throw new Error("Lead não encontrado.");
+
+    // Sem Cloud API configurada, envia pela conexão QR Code (Evolution API) da unidade.
+    if (!cfg.access_token || !cfg.phone_number_id) {
+      if (!lead.ad_account_id) throw new Error("Configure a WhatsApp Cloud API ou conecte a unidade via QR Code.");
+      const { sendEvolutionText } = await import("@/lib/evolution.server");
+      await sendEvolutionText(lead.ad_account_id, lead.phone, data.text);
+      await supabaseAdmin.from("whatsapp_messages").insert({
+        lead_id: data.leadId,
+        direction: "out",
+        body: data.text,
+      });
+      await supabaseAdmin
+        .from("whatsapp_leads")
+        .update({ replied: true, replied_at: new Date().toISOString(), status: "em_atendimento" })
+        .eq("id", data.leadId);
+      return { ok: true };
+    }
+
     const res = await fetch(`https://graph.facebook.com/v21.0/${cfg.phone_number_id}/messages`, {
       method: "POST",
       headers: { Authorization: `Bearer ${cfg.access_token}`, "Content-Type": "application/json" },
