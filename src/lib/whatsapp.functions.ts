@@ -21,7 +21,7 @@ export const sendWhatsappReply = createServerFn({ method: "POST" })
     if (!cfg.access_token || !cfg.phone_number_id) throw new Error("Configure a WhatsApp Cloud API.");
     const { data: lead } = await supabaseAdmin
       .from("whatsapp_leads")
-      .select("phone")
+      .select("phone, ad_account_id")
       .eq("id", data.leadId)
       .maybeSingle();
     if (!lead) throw new Error("Lead não encontrado.");
