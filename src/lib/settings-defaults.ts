@@ -20,6 +20,12 @@ export type WhatsappSettings = {
   app_secret?: string;
 };
 
+export type EvolutionSettings = {
+  base_url?: string;
+  api_key?: string;
+  webhook_token?: string;
+};
+
 export type Appearance = {
   brand_name: string;
   logo_url: string;
