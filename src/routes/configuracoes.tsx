@@ -359,6 +359,124 @@ function SettingsPage() {
           </div>
         </TabsContent>
 
+        <TabsContent value="qrcode">
+          <div className="grid gap-4 lg:grid-cols-2">
+            <div className="panel space-y-4 p-5">
+              <p className="text-sm font-semibold">Servidor Evolution API</p>
+              <p className="text-xs text-muted-foreground">
+                Conexão por QR Code (WhatsApp Web). Informe o endereço da sua instância Evolution API e a
+                chave global. Cada unidade cadastrada vira uma instância própria.
+              </p>
+              <div className="space-y-1.5">
+                <Label>URL base</Label>
+                <Input
+                  value={evo.base_url ?? ""}
+                  placeholder="https://evolution.seudominio.com"
+                  onChange={(e) => setEvo({ ...evo, base_url: e.target.value })}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>API key (global)</Label>
+                <Input
+                  type="password"
+                  value={evo.api_key ?? ""}
+                  onChange={(e) => setEvo({ ...evo, api_key: e.target.value })}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Token do webhook</Label>
+                <div className="flex gap-2">
+                  <Input
+                    value={evo.webhook_token ?? ""}
+                    onChange={(e) => setEvo({ ...evo, webhook_token: e.target.value })}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setEvo({ ...evo, webhook_token: crypto.randomUUID() })}
+                  >
+                    Gerar
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Protege o endpoint que recebe as mensagens. É enviado automaticamente à Evolution API.
+                </p>
+              </div>
+              <div className="rounded-lg border border-border bg-muted/40 p-3 text-xs">
+                <p className="font-medium">Webhook das conversas</p>
+                <code className="break-all text-muted-foreground">
+                  {typeof window !== "undefined"
+                    ? `${window.location.origin}/api/public/evolution/webhook?token=${evo.webhook_token ?? "<token>"}`
+                    : ""}
+                </code>
+              </div>
+              <Button onClick={() => saveSecret("evolution", evo as Record<string, unknown>)}>
+                <Save className="mr-2 h-4 w-4" /> Salvar
+              </Button>
+            </div>
+
+            <div className="panel space-y-3 p-5">
+              <p className="text-sm font-semibold">Números por unidade</p>
+              {(accounts ?? []).length === 0 && (
+                <p className="text-sm text-muted-foreground">Cadastre as unidades na aba “Contas / Unidades”.</p>
+              )}
+              {(accounts ?? []).map((a) => (
+                <div key={a.id} className="rounded-lg border border-border p-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                      <p className="text-sm font-medium">{a.unit_name}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {states[a.id] === "open"
+                          ? "Conectado"
+                          : states[a.id] === "connecting"
+                            ? "Aguardando leitura do QR"
+                            : states[a.id] === "not_found"
+                              ? "Sem instância"
+                              : states[a.id] ?? "Status desconhecido"}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" onClick={() => refreshState(a.id)}>
+                        <RefreshCw className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" onClick={() => startQr(a.id)}>
+                        <QrCode className="mr-2 h-4 w-4" /> Conectar
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={async () => {
+                          try {
+                            await dropQr({ data: { adAccountId: a.id } });
+                            toast.success("Número desconectado.");
+                            refreshState(a.id);
+                          } catch (e) {
+                            toast.error((e as Error).message);
+                          }
+                        }}
+                      >
+                        <Unplug className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </div>
+                  </div>
+                  {qr?.id === a.id && (
+                    <div className="mt-3 flex flex-col items-center gap-2 border-t border-border pt-3">
+                      {qr.image ? (
+                        <img src={qr.image} alt={`QR Code do WhatsApp da unidade ${a.unit_name}`} className="h-56 w-56 rounded-lg bg-white p-2" />
+                      ) : (
+                        <p className="text-sm text-muted-foreground">Gerando QR Code…</p>
+                      )}
+                      <p className="text-center text-xs text-muted-foreground">
+                        WhatsApp → Aparelhos conectados → Conectar aparelho. A tela atualiza sozinha ao conectar.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </TabsContent>
+
         <TabsContent value="ia">
           <div className="panel max-w-2xl space-y-4 p-5">
             <div className="space-y-1.5">
